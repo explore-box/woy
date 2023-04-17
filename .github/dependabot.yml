@@ -5,7 +5,6 @@
 
 version: 2
 updates:
-
   # Maintain the github action dependencies
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -13,7 +12,7 @@ updates:
       interval: "daily"
     labels:
       - "dependencies"
-  
+
   # Maintain the web dependencies on npm
   - package-ecosystem: "npm"
     directory: "/web"
@@ -25,7 +24,7 @@ updates:
     labels:
       - "npm"
       - "dependencies"
-      
+
   # Maintain the mobile dependencies on pub
   - package-ecosystem: "pub"
     directory: "/mobile"
@@ -37,7 +36,3 @@ updates:
     labels:
       - "pub"
       - "dependencies"
-      
-      
-      
-     
