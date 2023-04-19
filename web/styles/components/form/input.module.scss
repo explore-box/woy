@@ -37,6 +37,11 @@
         font-size: fontSize(lg);
       }
     }
+
+    .suffix_button {
+      color: var(--clr-gray-400);
+      cursor: pointer;
+    }
   }
 
   .message {
