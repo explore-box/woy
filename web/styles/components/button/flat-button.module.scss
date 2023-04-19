@@ -1,0 +1,16 @@
+@use '../../base' as *;
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: size(5) size(8);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1;
+  background: var(--clr-purple);
+  color: var(--clr-white);
+  gap: size(4);
+  border-radius: 20px;
+  cursor: pointer;
+}
