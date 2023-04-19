@@ -1,1 +1,82 @@
 @use '../base' as *;
+
+.main {
+  display: flex;
+  gap: size(10);
+  min-height: 100vh;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    width: col(6);
+    height: 100%;
+    padding: size(10) 0;
+    padding-left: size(16);
+
+    .back {
+      display: flex;
+
+      button.back_button {
+        display: flex;
+        align-items: center;
+        padding: size(4) size(8);
+        font-display: fontSize(lg);
+        font-weight: 500;
+        line-height: 1;
+        color: var(--clr-gray-500);
+        gap: size(4);
+        cursor: pointer;
+
+        i {
+          font-size: fontSize(2xl);
+        }
+      }
+    }
+
+    h2 {
+      margin-top: 80px;
+      display: flex;
+      line-height: 1;
+      font-size: fontSize(6xl);
+      font-weight: 600;
+      font-family: var(--font-poppins);
+      width: col(8);
+    }
+
+    form {
+      margin-top: size(16);
+      display: flex;
+      flex-direction: column;
+      gap: size(5);
+    }
+  }
+
+  .image {
+    display: flex;
+    width: col(6);
+    min-height: calc(100vh - 24px);
+    justify-content: center;
+    align-items: center;
+    margin-top: size(4);
+    margin-bottom: size(4);
+    margin-right: size(4);
+    background: #fff3f6;
+    overflow: hidden;
+    border-radius: 24px;
+
+    picture {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 60vh;
+      width: 80%;
+      position: relative;
+      overflow: hidden;
+
+      img {
+        display: flex;
+        object-fit: contain;
+      }
+    }
+  }
+}

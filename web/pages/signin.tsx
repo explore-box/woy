@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
+import { useRef } from 'react'
 
 const validator = z.object({
   email: z
@@ -25,6 +26,7 @@ const validator = z.object({
  * @returns JSX.Element
  */
 const SigninPage: NextPageWithLayout = (): JSX.Element => {
+  const mainRef = useRef<HTMLElement>(null)
   const form = useForm({ mode: 'onChange', resolver: zodResolver(validator) })
 
   const emailSigninMutation = useMutation(async () => {})
@@ -39,16 +41,29 @@ const SigninPage: NextPageWithLayout = (): JSX.Element => {
         />
       </Head>
 
-      <main className={styles.main}>
+      <main ref={mainRef} className={styles.main}>
         <div className={styles.content}>
+          <div className={styles.back}>
+            <button className={styles.back_button}>
+              <i className="fi fi-rr-arrow-left"></i>
+              <span>Back</span>
+            </button>
+          </div>
+
           <h2>Start explore your secret</h2>
 
           <Form
             context={form}
             onSubmit={(data) => emailSigninMutation.mutate(data)}
           >
-            <TextInput name="email" placeholder="Your email address" />
+            <TextInput
+              name="email"
+              placeholder="Your email address"
+              preIcon="fi fi-rr-user"
+            />
           </Form>
+
+          <div className={styles.actions}></div>
         </div>
         <div className={styles.image}>
           <picture>

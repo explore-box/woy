@@ -32,6 +32,12 @@ body {
   min-height: 100vh;
 }
 
+// html element preset
+button,
+input {
+  all: unset;
+}
+
 .fi {
   display: flex;
   justify-content: center;

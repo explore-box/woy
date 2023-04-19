@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import styles from '@styles/components/form/input.module.scss'
 
@@ -8,6 +8,7 @@ interface BaseInputProps {
   placeholder?: string
   preIcon?: string
   value?: any
+  className?: string
 }
 
 /**
@@ -24,6 +25,7 @@ const TextInput: FunctionComponent<BaseInputProps> = ({
   placeholder,
   preIcon,
   value,
+  className,
 }): JSX.Element => {
   const {
     setValue,
@@ -50,7 +52,55 @@ const TextInput: FunctionComponent<BaseInputProps> = ({
           type="text"
           id={`${name}-input`}
           {...register(name)}
-          className=""
+          className={className}
+          placeholder={placeholder}
+        />
+      </div>
+      {errors[name]?.message && (
+        <span className={styles.message}>
+          {errors[name]?.message?.toString()}
+        </span>
+      )}
+    </div>
+  )
+}
+
+const PasswordInput: FunctionComponent<BaseInputProps> = ({
+  name,
+  label,
+  placeholder,
+  preIcon,
+  value,
+  className,
+}): JSX.Element => {
+  const [isShowPass, setShowPass] = useState<boolean>(false)
+
+  const {
+    setValue,
+    register,
+    formState: { errors },
+  } = useFormContext()
+
+  useEffect(() => {
+    setValue(name, value)
+  }, value)
+
+  return (
+    <div className={styles.wrapper}>
+      {label && (
+        <label htmlFor={`${name}-input`} className={styles.label}>
+          {label}
+        </label>
+      )}
+
+      <div className={styles.input}>
+        {preIcon && <i className={preIcon}></i>}
+
+        <input
+          type="text"
+          id={`${name}-input`}
+          {...register(name)}
+          className={className}
           placeholder={placeholder}
         />
       </div>

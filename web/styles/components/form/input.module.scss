@@ -1,1 +1,48 @@
 @use '../../base' as *;
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    display: flex;
+  }
+
+  .input {
+    display: flex;
+    align-items: center;
+    gap: size(4);
+    height: size(14);
+    border-radius: size(5);
+    background: var(--clr-gray-50);
+    padding: 0 size(5);
+    border: 2px solid transparent;
+    transition: border 0.5s ease-in-out;
+
+    &:focus-within {
+      border: 2px solid var(--clr-purple);
+    }
+
+    input {
+      display: flex;
+      height: 100%;
+      flex: 1;
+      font-size: 17px;
+
+      &::placeholder {
+        color: var(--clr-gray-400);
+      }
+
+      i {
+        font-size: fontSize(lg);
+      }
+    }
+  }
+
+  .message {
+    display: flex;
+    padding: 0 size(4);
+    margin-top: size(5);
+    color: red;
+  }
+}
