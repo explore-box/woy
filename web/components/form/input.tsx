@@ -35,7 +35,7 @@ const TextInput: FunctionComponent<BaseInputProps> = ({
 
   useEffect(() => {
     setValue(name, value)
-  }, value)
+  }, [value])
 
   return (
     <div className={styles.wrapper}>
@@ -65,6 +65,12 @@ const TextInput: FunctionComponent<BaseInputProps> = ({
   )
 }
 
+/**
+ * # PasswordInput
+ *
+ * input for password type
+ * @returns JSX.Element
+ */
 const PasswordInput: FunctionComponent<BaseInputProps> = ({
   name,
   label,
@@ -83,7 +89,7 @@ const PasswordInput: FunctionComponent<BaseInputProps> = ({
 
   useEffect(() => {
     setValue(name, value)
-  }, value)
+  }, [value])
 
   return (
     <div className={styles.wrapper}>
@@ -97,12 +103,24 @@ const PasswordInput: FunctionComponent<BaseInputProps> = ({
         {preIcon && <i className={preIcon}></i>}
 
         <input
-          type="text"
+          type={`${isShowPass ? 'text' : 'password'}`}
           id={`${name}-input`}
           {...register(name)}
           className={className}
           placeholder={placeholder}
         />
+
+        <button
+          onClick={() => setShowPass((state) => !state)}
+          type="button"
+          className={styles.suffix_button}
+        >
+          <i
+            className={`${
+              isShowPass ? 'fi fi-rr-eye' : 'fi fi-rr-eye-crossed'
+            }`}
+          ></i>
+        </button>
       </div>
       {errors[name]?.message && (
         <span className={styles.message}>
@@ -113,4 +131,4 @@ const PasswordInput: FunctionComponent<BaseInputProps> = ({
   )
 }
 
-export { TextInput }
+export { TextInput, PasswordInput }
