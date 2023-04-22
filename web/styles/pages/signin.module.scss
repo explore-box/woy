@@ -24,6 +24,9 @@
 
     .back {
       display: flex;
+      position: fixed;
+      top: size(6);
+      left: 64px;
     }
 
     h2 {

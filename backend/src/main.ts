@@ -19,7 +19,8 @@ async function bootstrap() {
   app.enableCors({ origin: '*' })
 
   await app.listen(PORT, () => {
-    console.log(`Application running at http://localhost:${PORT}`)
+    console.log(`🎉 Application running at http://localhost:${PORT}`)
   })
 }
+
 bootstrap()

@@ -50,12 +50,13 @@ const SigninPage: NextPageWithLayout = (): JSX.Element => {
         })
         .from('.image', {
           opacity: 0,
-          duration: 1.2,
+          duration: 0.7,
           ease: 'none',
         })
-        .from(['.back', 'h2', 'form', 'actions'], {
+        .from(['.back', 'h2', 'form', '.actions', '.option-label'], {
           y: 100,
           opacity: 0,
+          duration: 1.2,
         })
     }, mainRef)
 

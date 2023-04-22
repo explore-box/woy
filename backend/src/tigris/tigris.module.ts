@@ -1,41 +1,43 @@
-import {
-  Inject,
-  Module,
-  OnApplicationBootstrap,
-  OnApplicationShutdown,
-} from '@nestjs/common'
-import { TIGRIS_PROVIDER, TigrisProvider } from './tigris.provider'
+import { DynamicModule, Global, Module, Provider } from '@nestjs/common'
 import { TigrisService } from './tigris.service'
-import { Tigris, TigrisCollectionType } from '@tigrisdata/core'
-import path, { dirname } from 'path'
+import { Tigris } from '@tigrisdata/core'
+import { TIGRIS_PROVIDER } from './tigris.constants'
+import { TigrisRootOptions } from './tigris.interface'
 
+@Global()
 @Module({
-  providers: [TigrisProvider, TigrisService],
-  exports: [TigrisProvider, TigrisService],
+  imports: [],
+  providers: [TigrisService],
+  exports: [TigrisService],
 })
-export class TigrisModule
-  implements OnApplicationBootstrap, OnApplicationShutdown
-{
-  constructor(@Inject(TIGRIS_PROVIDER) private client: Tigris) {}
+export class TigrisModule {
+  static forRoot({ schemas }: TigrisRootOptions): DynamicModule {
+    // create the custom provider
+    // for the tigris client
+    const TigrisProvider: Provider = {
+      provide: TIGRIS_PROVIDER,
+      useFactory: async () => {
+        const client = new Tigris()
 
-  private getAllSchema = (): TigrisCollectionType[] => {
-    return []
-  }
+        try {
+          console.log(`🍀 Connecting to your database`)
+          await client.getDatabase().initializeBranch()
+          await client.registerSchemas(schemas)
+          console.log(`🎉 Database connected ...`)
+        } catch (error) {
+          console.log(
+            `🧐 Something wrong when connecting to database, caused by ${error}`,
+          )
+        }
 
-  async onApplicationBootstrap() {
-    try {
-      // start to initialize database
-      // and register the schema
-      console.log(`🍀 Start connecting the database ...`)
+        return client
+      },
+    }
 
-      await this.client.getDatabase().initializeBranch()
-      const schemas = this.getAllSchema()
-      await this.client.registerSchemas(schemas)
-
-      console.log(`🚀 Database connected.`)
-    } catch (error: any) {
-      console.log(`🧐 Failed to connect database cause ${error}`)
+    return {
+      module: TigrisModule,
+      providers: [TigrisProvider],
+      exports: [TigrisProvider],
     }
   }
-  onApplicationShutdown() {}
 }

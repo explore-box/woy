@@ -4,12 +4,19 @@ import { AppService } from './app.service'
 import { ConfigModule } from '@nestjs/config'
 import { ThrottlerModule } from '@nestjs/throttler'
 import { TigrisModule } from './tigris/tigris.module'
+import { UserModule } from './user/user.module'
+import { User } from './user/model/user.schema'
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, expandVariables: true }),
     ThrottlerModule.forRoot({ limit: 10, ttl: 60 }),
-    TigrisModule,
+    TigrisModule.forRoot({
+      schemas: [User],
+    }),
+
+    // feature module
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
