@@ -7,5 +7,6 @@ import { TigrisModule } from 'src/tigris/tigris.module'
   imports: [TigrisModule],
   providers: [UserService],
   controllers: [UserController],
+  exports: [UserService],
 })
 export class UserModule {}

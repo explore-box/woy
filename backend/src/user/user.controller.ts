@@ -1,19 +1,12 @@
 import { Body, Controller, Post } from '@nestjs/common'
-import { EmailPassUserInput } from './model/user.input'
-import { AuthPayload } from './model/user.payload'
 import { UserService } from './user.service'
+import { ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger'
 
+@ApiTags('user')
 @Controller({
-  path: 'users',
+  path: 'user',
   version: '1',
 })
 export class UserController {
   constructor(private userService: UserService) {}
-
-  @Post('/auth/email')
-  authUserWithEmailPass(
-    @Body() body: EmailPassUserInput,
-  ): Promise<AuthPayload> {
-    return this.userService.authEmailPass(body)
-  }
 }

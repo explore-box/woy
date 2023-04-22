@@ -6,6 +6,7 @@ import { ThrottlerModule } from '@nestjs/throttler'
 import { TigrisModule } from './tigris/tigris.module'
 import { UserModule } from './user/user.module'
 import { User } from './user/model/user.schema'
+import { AuthModule } from './auth/auth.module'
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { User } from './user/model/user.schema'
 
     // feature module
     UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

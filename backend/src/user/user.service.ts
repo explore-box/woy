@@ -1,10 +1,9 @@
-import { Inject, Injectable } from '@nestjs/common'
-import { EmailPassUserInput } from './model/user.input'
-import { AuthPayload } from './model/user.payload'
+import { ForbiddenException, Inject, Injectable } from '@nestjs/common'
 import { TIGRIS_PROVIDER } from 'src/tigris/tigris.constants'
 import { Tigris } from '@tigrisdata/core'
 import { User } from './model/user.schema'
 import * as bcrypt from 'bcryptjs'
+import { EmailPassUserInput } from './model/user.input'
 
 @Injectable()
 export class UserService {
@@ -21,29 +20,59 @@ export class UserService {
     return hashPassword
   }
 
-  async authEmailPass(body: EmailPassUserInput): Promise<AuthPayload> {
+  async matchPassword(
+    password: string,
+    hashedPassword: string,
+  ): Promise<boolean> {
+    return bcrypt.compare(password, hashedPassword)
+  }
+
+  async signEmailPass(body: EmailPassUserInput): Promise<User> {
     // first check the user with the same email
     const sameUser = await this.tigris
       .getDatabase()
       .getCollection<User>(User)
       .findOne({ filter: { email: body.email } })
 
+    // gonna check if the passwor is match
     if (sameUser) {
-      // create a new one
-      const username = await this.generateUsernameFromEmail(body.email)
-      const hashedPassword = await this.hashingPassword(body.password)
-      const user = await this.tigris
-        .getDatabase()
-        .getCollection(User)
-        .insertOne({
-          email: body.email,
-          providers: ['email'],
-          username,
-          password: hashedPassword,
-          role: 'user',
-        })
+      const isPasswordMatch = await this.matchPassword(
+        body.password,
+        sameUser.password,
+      )
+
+      if (isPasswordMatch) {
+        return sameUser
+      } else {
+        throw new ForbiddenException(
+          new Error(`Opps, your password look weird`),
+          'wrong-password',
+        )
+      }
     }
 
-    return {} as any
+    // create a new one
+    const username = await this.generateUsernameFromEmail(body.email)
+    const hashedPassword = await this.hashingPassword(body.password)
+    const user = await this.tigris
+      .getDatabase()
+      .getCollection<User>(User)
+      .insertOne({
+        email: body.email,
+        providers: ['email'],
+        username,
+        password: hashedPassword,
+        role: 'user',
+      })
+
+    return user
+  }
+
+  async findUserByEmail(email: string): Promise<User> {
+    const user = await this.tigris
+      .getDatabase()
+      .getCollection<User>(User)
+      .findOne({ filter: { email } })
+    return user
   }
 }

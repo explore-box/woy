@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger'
 import {
   Field,
   PrimaryKey,
@@ -9,16 +10,19 @@ import {
 @TigrisCollection('users')
 export class User {
   @PrimaryKey(TigrisDataTypes.STRING, { order: 1, autoGenerate: true })
-  id: string
+  id?: string
 
+  @ApiProperty()
   @SearchField({})
   @Field()
-  fullName: string
+  fullName?: string
 
+  @ApiProperty()
   @SearchField()
   @Field()
   username: string
 
+  @ApiProperty()
   @SearchField()
   @Field()
   email: string
@@ -26,21 +30,27 @@ export class User {
   @Field()
   password: string
 
+  @ApiProperty()
   @Field({ elements: TigrisDataTypes.STRING })
-  prividers: Array<string>
+  providers: Array<string>
 
+  @ApiProperty()
   @Field({ default: 'user' })
   role: string
 
+  @ApiProperty()
   @Field()
-  avatar: string
+  avatar?: string
 
+  @ApiProperty()
   @Field()
-  cover: string
+  cover?: string
 
+  @ApiProperty()
   @Field({ timestamp: 'createdAt' })
-  createdAt: string
+  createdAt?: string
 
+  @ApiProperty()
   @Field({ timestamp: 'updatedAt' })
-  updatedAt: string
+  updatedAt?: string
 }
