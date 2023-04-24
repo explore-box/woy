@@ -10,6 +10,9 @@ import { useMutation } from '@tanstack/react-query'
 import { useEffect, useRef } from 'react'
 import { FlatButton, TextButton } from '@components/button'
 import { gsap } from 'gsap'
+import { useRouter } from 'next/router'
+import useAlert from '@lib/hooks/use-alert'
+import axios from 'axios'
 
 const validator = z.object({
   email: z
@@ -28,14 +31,78 @@ const validator = z.object({
  * @returns JSX.Element
  */
 const SigninPage: NextPageWithLayout = (): JSX.Element => {
+  const router = useRouter()
   const mainRef = useRef<HTMLElement>(null)
   const form = useForm({ mode: 'onChange', resolver: zodResolver(validator) })
+  const alert = useAlert()
 
-  const emailSignin = useMutation(async () => {})
+  const emailSignin = useMutation<any, any>(
+    async (data: any) => {
+      try {
+        await axios.post('/api/auth/local', {
+          email: data.email,
+          password: data.password,
+        })
+      } catch (error: any) {
+        throw error.response.data
+      }
+    },
+    {
+      onSuccess: () => {
+        alert.show({
+          type: 'success',
+          title: 'Log in',
+          description: "Now you're signin into the app",
+        })
 
-  const googleSignin = useMutation(async () => {})
+        router.push('/app')
+      },
+      onError: (error) => {
+        if (error.message == 'auth/invalid-password') {
+          form.setError('password', {
+            message: `Opps, your password look weird`,
+          })
+        } else {
+          alert.show({
+            type: 'error',
+            title: 'Failed',
+            description: 'Opps, something error when login',
+          })
+        }
+      },
+    }
+  )
 
-  const githubSignin = useMutation(async () => {})
+  const googleSignin = useMutation<any, any>(async () => {
+    router.replace('/api/auth/google')
+  })
+
+  const githubSignin = useMutation(async () => {
+    router.replace('/api/auth/github')
+  })
+
+  // showing error message
+  // when something happen with oauth method
+  useEffect(() => {
+    const { status, strategy } = router.query
+    if (status == 'fail') {
+      if (strategy == 'google') {
+        alert.show({
+          type: 'error',
+          title: 'Failed',
+          description: 'Opps, something happen when try to signin using google',
+        })
+      }
+
+      if (strategy == 'github') {
+        alert.show({
+          type: 'error',
+          title: 'Failed',
+          description: 'Opps, something happen when try to signin using github',
+        })
+      }
+    }
+  }, [router.query])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -102,8 +169,13 @@ const SigninPage: NextPageWithLayout = (): JSX.Element => {
               <TextButton link="/forgot-password">Forgot Password</TextButton>
             </div>
 
-            <FlatButton type="submit" className={styles.submit_button}>
-              Sign in Now
+            <FlatButton
+              type="submit"
+              className={styles.submit_button}
+              disabled={emailSignin.isLoading}
+              processed={emailSignin.isLoading}
+            >
+              {emailSignin.isLoading ? <>Signing in</> : <>Sign in Now</>}
             </FlatButton>
           </Form>
 

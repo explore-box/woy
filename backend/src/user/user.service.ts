@@ -1,4 +1,9 @@
-import { ForbiddenException, Inject, Injectable } from '@nestjs/common'
+import {
+  BadRequestException,
+  ForbiddenException,
+  Inject,
+  Injectable,
+} from '@nestjs/common'
 import { TIGRIS_PROVIDER } from 'src/tigris/tigris.constants'
 import { Tigris } from '@tigrisdata/core'
 import { User } from './model/user.schema'
@@ -42,12 +47,24 @@ export class UserService {
       )
 
       if (isPasswordMatch) {
+        if (!sameUser.providers.includes('email')) {
+          await this.tigris
+            .getDatabase()
+            .getCollection<User>(User)
+            .updateOne({
+              filter: { email: body.email },
+              fields: {
+                providers: [...sameUser.providers, 'email'],
+              },
+            })
+        }
+
         return sameUser
       } else {
-        throw new ForbiddenException(
-          new Error(`Opps, your password look weird`),
-          'wrong-password',
-        )
+        throw new BadRequestException('auth/invalid-password', {
+          cause: new Error(),
+          description: `Opps, your password look weird`,
+        })
       }
     }
 
@@ -62,7 +79,6 @@ export class UserService {
         providers: ['email'],
         username,
         password: hashedPassword,
-        role: 'user',
       })
 
     return user
@@ -74,5 +90,93 @@ export class UserService {
       .getCollection<User>(User)
       .findOne({ filter: { email } })
     return user
+  }
+
+  async signUserWithGithubCredential(
+    credentials: Record<string, any>,
+  ): Promise<any> {
+    const sameUser = await this.tigris
+      .getDatabase()
+      .getCollection<User>(User)
+      .findOne({ filter: { username: credentials.login } })
+
+    if (sameUser) {
+      // add the provider if not found the specify one
+      if (sameUser.providers && sameUser.providers.includes('github')) {
+        return sameUser
+      }
+
+      const updatedUser = this.tigris
+        .getDatabase()
+        .getCollection<User>(User)
+        .updateOne({
+          filter: { username: credentials.login },
+          fields: {
+            avatar: sameUser.avatar ?? credentials.avatar_url,
+            providers: [...sameUser.providers, 'github'],
+            fullName: sameUser.fullName ?? credentials.name,
+          },
+        })
+
+      return updatedUser
+    } else {
+      const createdUser = await this.tigris
+        .getDatabase()
+        .getCollection<User>(User)
+        .insertOne({
+          email: credentials.email,
+          providers: ['github'],
+          username: credentials.login,
+          avatar: credentials.avatar_url,
+          fullName: credentials.name,
+        })
+
+      return createdUser
+    }
+  }
+
+  async signUserWithGoogleCredential(
+    credentials: Record<string, any>,
+  ): Promise<any> {
+    const sameUser = await this.tigris
+      .getDatabase()
+      .getCollection<User>(User)
+      .findOne({ filter: { email: credentials.email } })
+    if (sameUser) {
+      // add the provider if not found the specify one
+      if (sameUser.providers && sameUser.providers.includes('google')) {
+        return sameUser
+      }
+
+      const updatedUser = this.tigris
+        .getDatabase()
+        .getCollection<User>(User)
+        .updateOne({
+          filter: { email: credentials.email },
+          fields: {
+            fullName: sameUser.fullName ?? credentials.displayName,
+            avatar: sameUser.avatar ?? credentials.picture,
+            cover: sameUser.cover ?? credentials.coverPhoto,
+            providers: [...sameUser.providers.slice(), 'google'],
+          },
+        })
+
+      return updatedUser
+    } else {
+      const username = await this.generateUsernameFromEmail(credentials.email)
+      const createdUser = await this.tigris
+        .getDatabase()
+        .getCollection<User>(User)
+        .insertOne({
+          email: credentials.emails,
+          providers: ['google'],
+          username,
+          avatar: credentials.picture,
+          fullName: credentials.displayName,
+          cover: credentials.coverPhoto,
+        })
+
+      return createdUser
+    }
   }
 }

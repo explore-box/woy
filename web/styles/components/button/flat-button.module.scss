@@ -13,4 +13,22 @@
   gap: size(4);
   border-radius: 20px;
   cursor: pointer;
+  position: relative;
+
+  .process_icon {
+    font-size: fontSize(xl);
+    position: absolute;
+    right: size(5);
+
+    animation: spin 1.4s linear infinite;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
 }

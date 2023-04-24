@@ -7,6 +7,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+import { Alert } from '@components/modal'
 
 const dmSansFont = DM_Sans({
   weight: ['400', '500', '700'],
@@ -38,7 +39,12 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
-          {layout(<Component {...pageProps} />)}
+          <>
+            {layout(<Component {...pageProps} />)}
+
+            {/* top level view component */}
+            <Alert />
+          </>
         </Hydrate>
       </QueryClientProvider>
     </>

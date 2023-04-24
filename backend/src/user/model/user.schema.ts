@@ -25,10 +25,10 @@ export class User {
   @ApiProperty()
   @SearchField()
   @Field()
-  email: string
+  email?: string
 
   @Field()
-  password: string
+  password?: string
 
   @ApiProperty()
   @Field({ elements: TigrisDataTypes.STRING })
@@ -36,7 +36,7 @@ export class User {
 
   @ApiProperty()
   @Field({ default: 'user' })
-  role: string
+  role?: string
 
   @ApiProperty()
   @Field()

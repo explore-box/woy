@@ -32,10 +32,10 @@ export class AuthGuard implements CanActivate {
       const token = this.extractBarearFromHeader(request)
 
       if (!token) {
-        throw new ForbiddenException(
-          new Error(`Please signin before using the resources`),
-          'authentication-need',
-        )
+        throw new ForbiddenException('auth/signin-need', {
+          cause: new Error(),
+          description: `Please signin before using the resources`,
+        })
       }
 
       try {
@@ -45,10 +45,10 @@ export class AuthGuard implements CanActivate {
 
         request['user'] = payload
       } catch (error) {
-        throw new UnauthorizedException(
-          new Error(`Opps, you don't have the right access for this resources`),
-          'unauthorized',
-        )
+        throw new UnauthorizedException('auth/unauthorized', {
+          cause: new Error(),
+          description: `Opps, you don't have the right access for this resources`,
+        })
       }
 
       return true

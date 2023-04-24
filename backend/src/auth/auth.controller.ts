@@ -22,4 +22,26 @@ export class AuthController {
   ): Promise<AuthPayload> {
     return this.authService.authEmailPassword(body)
   }
+
+  @Post('github')
+  @ApiCreatedResponse({
+    description: 'User authenticated using github',
+    type: AuthPayload,
+  })
+  authUserGithubCredentials(
+    @Body() body: Record<string, any>,
+  ): Promise<AuthPayload> {
+    return this.authService.authWithGithubCredentials(body)
+  }
+
+  @Post('google')
+  @ApiCreatedResponse({
+    description: 'User authenticated using github',
+    type: AuthPayload,
+  })
+  authUserGoogleCredentials(
+    @Body() body: Record<string, any>,
+  ): Promise<AuthPayload> {
+    return this.authService.authWithGoogleCredentials(body)
+  }
 }

@@ -1,0 +1,63 @@
+@use '../../base' as *;
+
+.wrapper {
+  display: flex;
+  position: fixed;
+  top: size(10);
+  width: 400px;
+  left: calc(50% - (400px / 2));
+  background: var(--clr-white);
+  border-radius: 28px;
+  border: 1px solid var(--clr-gray-100);
+  padding: size(4) size(6);
+  box-shadow: 0px 0px 30px var(--clr-gray-100);
+  cursor: pointer;
+
+  .content {
+    display: flex;
+    gap: size(5);
+
+    .success {
+      background: rgb(201, 255, 201);
+      color: rgb(14, 190, 131);
+    }
+
+    .error {
+      background: rgb(255, 201, 204);
+      color: rgb(201, 16, 16);
+    }
+
+    .icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: size(14);
+      width: size(14);
+      border-radius: 100%;
+
+      i {
+        font-size: fontSize(2xl);
+      }
+    }
+
+    .detail {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: size(1);
+
+      h5 {
+        display: flex;
+        font-size: fontSize(lg);
+        font-weight: 500;
+        line-height: 1;
+      }
+
+      span {
+        display: flex;
+        font-size: fontSize(sm);
+        color: var(--clr-gray-700);
+      }
+    }
+  }
+}

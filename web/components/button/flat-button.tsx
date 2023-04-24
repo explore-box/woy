@@ -26,7 +26,7 @@ const FlatButton: FunctionComponent<FlatButtonProps> = ({
   disabled,
   form,
   processed,
-  type,
+  type = 'button',
   link,
   onClick,
 }): JSX.Element => {
@@ -49,6 +49,9 @@ const FlatButton: FunctionComponent<FlatButtonProps> = ({
       className={`${styles.button} ${className}`}
     >
       {children}
+      {processed && (
+        <i className={`${styles.process_icon} fi fi-rr-spinner`}></i>
+      )}
     </button>
   )
 }
