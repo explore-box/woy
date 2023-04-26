@@ -2,6 +2,23 @@ import apiConnection from '@lib/connections/api-connection'
 import { AuthData } from '~/types/account'
 
 class AccounService {
+  async sendResetPasswordCode(data: any): Promise<void> {}
+
+  async verifyResetPasswordCode(data: any): Promise<void> {
+    const newPassword = data.newPassword
+    const confirmPassword = data.confirmNewPassword
+
+    if (newPassword == confirmPassword) {
+      return
+    } else {
+      throw {
+        message: 'auth/password-not-match',
+      }
+    }
+  }
+
+  async resetPassword(data: any): Promise<void> {}
+
   async emailAuth(params: {
     email: string
     password: string
