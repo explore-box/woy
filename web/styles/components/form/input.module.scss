@@ -23,6 +23,11 @@
       border: 2px solid var(--clr-purple);
     }
 
+    i {
+      font-size: fontSize(lg);
+      color: #374957;
+    }
+
     input {
       display: flex;
       height: 100%;
@@ -31,10 +36,6 @@
 
       &::placeholder {
         color: var(--clr-gray-400);
-      }
-
-      i {
-        font-size: fontSize(lg);
       }
     }
 
