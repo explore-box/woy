@@ -145,7 +145,7 @@ const SigninPage: NextPageWithLayout = (): JSX.Element => {
       <main ref={mainRef} className={styles.main}>
         <div className={styles.content}>
           <div className={`${styles.back} back`}>
-            <TextButton>
+            <TextButton onClick={() => router.back()}>
               <i className="fi fi-rr-arrow-left"></i>
               Back
             </TextButton>
