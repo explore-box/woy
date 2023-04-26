@@ -8,9 +8,13 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
     return NextResponse.redirect(new URL('/app', req.url))
   }
 
+  if (pathname.includes('/forgot-password') && user) {
+    return NextResponse.redirect(new URL('/app', req.url))
+  }
+
   return NextResponse.next()
 }
 
 export const config = {
-  matcher: ['/signin/:path*'],
+  matcher: ['/signin/:path*', '/forgot-password/:path*'],
 }

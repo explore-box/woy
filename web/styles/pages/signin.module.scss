@@ -11,8 +11,8 @@
     width: col(6);
     height: 100%;
     padding: size(10) 0;
-    padding-left: size(16);
-    padding-right: 100px;
+    padding-left: 100px;
+    padding-right: 140px;
 
     button {
       transition: all 1.2s ease-in-out;
@@ -25,8 +25,9 @@
     .back {
       display: flex;
       position: fixed;
-      top: size(6);
-      left: 64px;
+      top: size(8);
+      left: 40px;
+      color: var(--clr-gray-400);
     }
 
     h2 {
