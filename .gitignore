@@ -58,7 +58,7 @@ migrate_working_dir/
 .idea/
 
 # vscode
-.vscode/
+# .vscode/
 
 # Flutter/Dart/Pub related
 **/doc/api/
