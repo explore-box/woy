@@ -10,7 +10,6 @@
 ![GitHub milestone](https://img.shields.io/github/milestones/issues-open/sonibble/woy/1)
 ![GitHub Discussions](https://img.shields.io/github/discussions/sonibble/woy)
 
-
 # Woy
 
 <br/>
@@ -20,14 +19,17 @@ A personal password manager that helps people around the world remember the info
 <br/>
 
 ## ✋ About
+
 Woy passsword manager is come to solve some people problem when have a secret and want to flexible without remembering your own password, login and other secrets. Woy is ultimate password manager that build for secure and easy to access. We offer something special and start with free plan. Everything is manage to become more friendly to you.
 
 ### 💘 Motivations
+
 When want to store my password no one can make me comfortable with the app. Some app need high cost and other side offer bad user interface and lack experience. I want to build something special and provide people the best product to save their credential and secure manage the password.
 
 <br/>
 
 ## 🎉 Features
+
 - Exclusive Password Manager
 - Available in any device including web, android, and ios
 - Auto fill mode
@@ -35,7 +37,6 @@ When want to store my password no one can make me comfortable with the app. Some
 - Easy and free use
 
 <br/>
-
 
 **Platform Supports**
 
@@ -51,9 +52,10 @@ When want to store my password no one can make me comfortable with the app. Some
 This project is written on top of this stack and language.
 
 - [Flutter](https://flutter.dev)
-- [Nuxt](https://nuxt.com)
+- [NextJS](https://nextjs.org/)
 - [Deno](https://deno.com)
 - [Tailwindcss](https://tailwindcss.com)
+- [GSAP](https://greensock.com/gsap/)
 
 <br/>
 
@@ -75,4 +77,4 @@ Please adhere to this project's [code of conduct](CODE_OF_CONDUCT.md).
 
 ## 🪪 License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+This project is maintain under the [MIT](https://choosealicense.com/licenses/mit/) license
