@@ -9,39 +9,17 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
     labels:
       - "📦 dependencies"
 
-  # Maintain the web dependencies on npm
-  - package-ecosystem: "npm"
-    directory: "/apps/backend"
-    schedule:
-      interval: "weekly"
-    commit-message:
-      prefix: "npm"
-      include: "scope"
-    labels:
-      - "📦 dependencies"
-      
-  # Maintain the web dependencies on npm
+  # Maintain the web dependencies
   - package-ecosystem: "npm"
     directory: "/apps/web"
     schedule:
       interval: "weekly"
     commit-message:
       prefix: "npm"
-      include: "scope"
-    labels:
-      - "📦 dependencies"
-
-  # Maintain the mobile dependencies on pub
-  - package-ecosystem: "pub"
-    directory: "/apps/mobile"
-    schedule:
-      interval: "weekly"
-    commit-message:
-      prefix: "pub"
       include: "scope"
     labels:
       - "📦 dependencies"
